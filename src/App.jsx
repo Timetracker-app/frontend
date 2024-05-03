@@ -17,6 +17,9 @@ import { ErrorElement } from "./components";
 
 // loaders
 import { loader as workLoader } from "./pages/Work";
+import { loader as workplaceLoader } from "./pages/Workplace";
+import { loader as projectLoader } from "./pages/Project";
+import { loader as workerLoader } from "./pages/Worker";
 // actions
 
 const router = createBrowserRouter([
@@ -38,14 +41,20 @@ const router = createBrowserRouter([
       {
         path: "workplace",
         element: <Workplace />,
+        errorElement: <ErrorElement />,
+        loader: workplaceLoader,
       },
       {
         path: "project",
         element: <Project />,
+        errorElement: <ErrorElement />,
+        loader: projectLoader,
       },
       {
         path: "worker",
         element: <Worker />,
+        errorElement: <ErrorElement />,
+        loader: workerLoader,
       },
       {
         path: "profile",

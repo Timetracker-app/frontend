@@ -1,14 +1,22 @@
+import { WorkContainer, WorkFilter } from "../components";
 import { customFetch } from "../utils";
 const url = "/work";
 
 export const loader = async () => {
   const response = await customFetch(url);
-  console.log(response);
-  return response.data;
+  const work = response.data.result;
+  console.log(work);
+
+  return { work };
 };
 
 const Work = () => {
-  return <div>Work</div>;
+  return (
+    <>
+      <WorkFilter />
+      <WorkContainer />
+    </>
+  );
 };
 
 export default Work;

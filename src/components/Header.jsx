@@ -5,7 +5,7 @@ const Header = () => {
     <header>
       <div>
         <div>
-          TimeTracker
+          <h2>TimeTracker</h2>
           <Link to="/landing">Sign Out</Link>
         </div>
       </div>

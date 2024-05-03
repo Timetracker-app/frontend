@@ -305,11 +305,6 @@ Sidebar
   row-gap: 1rem;
   box-shadow: var(--red-dark);
   transition: var(--transition);
-  /* toggle logic */
-  transform: translateX(-100%);
-}
-.show-sidebar {
-  transform: translateX(0);
 }
 
 @media screen and (min-width: 676px) {

@@ -7,7 +7,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Setup:
+**Setup:**
 
 ```sh
 npm create vite@latest frontend -- --template react
@@ -17,7 +17,10 @@ npm install
 npm run dev
 ```
 
-Libraries:
+**Libraries:**
 
-- npm i react-router-dom@latest
-- npm i axios@latest
+```sh
+npm i react-icons@5.1.0
+npm i react-router-dom@6.14.0
+npm i axios@1.6.8
+```
