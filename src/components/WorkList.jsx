@@ -1,4 +1,5 @@
 import { useLoaderData } from "react-router-dom";
+import { formatDate } from "../utils";
 
 const WorkList = () => {
   const { work } = useLoaderData();
@@ -17,14 +18,16 @@ const WorkList = () => {
         </thead>
         {work.map((val, key) => {
           const { IDdela, ime, projekt, stroj, zacetni_cas, koncni_cas } = val;
+          const starttime = formatDate(zacetni_cas);
+          const endtime = formatDate(koncni_cas);
           return (
             <tbody>
               <tr key={key}>
                 <td>{ime}</td>
                 <td>{projekt}</td>
                 <td>{stroj}</td>
-                <td>{zacetni_cas}</td>
-                <td>{koncni_cas}</td>
+                <td>{starttime}</td>
+                <td>{endtime}</td>
               </tr>
             </tbody>
           );

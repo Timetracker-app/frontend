@@ -1,4 +1,4 @@
-import { LoginForm, SubmitBtn } from "../components";
+import { FormInput, SubmitBtn } from "../components";
 import { Form } from "react-router-dom";
 
 const Login = () => {
@@ -6,13 +6,13 @@ const Login = () => {
     <section>
       <Form method="post">
         <h4>Login</h4>
-        <LoginForm
+        <FormInput
           type="email"
           label="email"
           name="identifier"
           defaultValue="test@test.com"
         />
-        <LoginForm
+        <FormInput
           type="password"
           label="password"
           name="password"
