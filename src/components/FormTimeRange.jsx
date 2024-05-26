@@ -1,10 +1,15 @@
 const FormTimeRange = ({ label, name, defaultValue }) => {
   return (
-    <div className="form">
-      <label className="form-label" htmlFor={name}>
-        <span>{label}</span>
+    <div className="form-control">
+      <label htmlFor={name} className="label">
+        <span className="label-text capitalize">{label}</span>
       </label>
-      <input type="date" id={name} name={name} defaultValue={defaultValue} />
+      <input
+        type="datetime-local"
+        id={name}
+        name={name}
+        defaultValue={defaultValue}
+      />
     </div>
   );
 };

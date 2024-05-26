@@ -4,8 +4,8 @@ const ProjectList = () => {
   const { projects } = useLoaderData();
 
   return (
-    <div>
-      <table>
+    <div className="overflow-x-auto">
+      <table className="table">
         <thead>
           <tr>
             <th>Project</th>
@@ -21,12 +21,14 @@ const ProjectList = () => {
                 <td>{projekt}</td>
                 <td>{cas}</td>
                 <td>{status}</td>
+                <td>
+                  <button className="btn btn-sm">Edit</button>
+                </td>
               </tr>
             </tbody>
           );
         })}
       </table>
-      ;
     </div>
   );
 };

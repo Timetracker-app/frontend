@@ -17,10 +17,26 @@ npm install
 npm run dev
 ```
 
-**Libraries:**
+**Dependencies:**
+
+```sh
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm i -D daisyui@latest @tailwindcss/typography
+```
+
+**Libraries/dependencies:**
 
 ```sh
 npm i react-icons@5.1.0
 npm i react-router-dom@6.14.0
 npm i axios@1.6.8
 ```
+
+To consider:
+
+```sh
+npm i axios@1.4.0 dayjs@1.11.9 @reduxjs/toolkit@1.9.5 @tanstack/react-query@4.32.6 @tanstack/react-query-devtools@4.32.6 react-icons@4.10.1 react-redux@8.1.2 react-router-dom@6.14.2 react-toastify@9.1.3
+```
+
+dayjs zgleda ful uporabno

@@ -7,7 +7,7 @@ const ProjectContainer = () => {
   console.log(totalProjects);
   return (
     <>
-      <div>
+      <div className="flex-1 p-4">
         {totalProjects === 0 ? (
           <h5>Sorry, no projects matched your search...</h5>
         ) : (

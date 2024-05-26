@@ -7,7 +7,7 @@ const WorkerContainer = () => {
   console.log(totalWorkers);
   return (
     <>
-      <div>
+      <div className="flex-1 p-4">
         {totalWorkers === 0 ? (
           <h5>Sorry, no workers matched your search...</h5>
         ) : (

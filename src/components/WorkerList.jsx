@@ -4,11 +4,11 @@ const WorkerList = () => {
   const { workers } = useLoaderData();
 
   return (
-    <div>
-      <table>
+    <div className="overflow-x-auto">
+      <table className="table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>First Name</th>
             <th>Surname</th>
             <th>Email</th>
           </tr>
@@ -21,12 +21,14 @@ const WorkerList = () => {
                 <td>{ime}</td>
                 <td>{priimek}</td>
                 <td>{email}</td>
+                <td>
+                  <button className="btn btn-sm">Edit</button>
+                </td>
               </tr>
             </tbody>
           );
         })}
       </table>
-      ;
     </div>
   );
 };

@@ -1,4 +1,9 @@
-import { WorkContainer, WorkFilter } from "../components";
+import {
+  PaginationContainer,
+  WorkContainer,
+  WorkFilter,
+  AddWork,
+} from "../components";
 import { customFetch } from "../utils";
 const url = "/work";
 
@@ -30,7 +35,9 @@ const Work = () => {
   return (
     <>
       <WorkFilter />
+      <AddWork />
       <WorkContainer />
+      {/*<PaginationContainer /> */}
     </>
   );
 };

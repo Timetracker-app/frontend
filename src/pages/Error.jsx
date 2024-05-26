@@ -7,19 +7,27 @@ const Error = () => {
 
   if (error.status === 404) {
     return (
-      <div>
-        <h3>Ups ...</h3>
-        <p>Page not found</p>
-        <Link to="/" className="btn">
-          Back home
-        </Link>
-      </div>
+      <main className="grid min-h-[100vh] place-items-center px-8 ">
+        <div className="text-center">
+          <p className="text-7xl font-semibold text-gray">404</p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-3xl">
+            Page not found
+          </h1>
+          <div className="mt-10 ">
+            <Link to="/" className="btn">
+              Back home
+            </Link>
+          </div>
+        </div>
+      </main>
     );
   }
   return (
-    <div>
-      <h3>Something went wrong</h3>
-    </div>
+    <main className="grid min-h-[100vh] place-items-center px-8 ">
+      <h4 className="text-center font-bold text-4xl">
+        Something went wrong...
+      </h4>
+    </main>
   );
 };
 
