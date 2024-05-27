@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   Home,
   Work,
+  AddWork,
   Workplace,
   Project,
   Worker,
@@ -39,10 +40,20 @@ const router = createBrowserRouter([
         loader: workLoader,
       },
       {
+        path: "add-work",
+        element: <AddWork />,
+        errorElement: <ErrorElement />,
+      },
+      {
         path: "workplace",
         element: <Workplace />,
         errorElement: <ErrorElement />,
         loader: workplaceLoader,
+      },
+      {
+        path: "add-workplace",
+        //element: <AddWorkplace />,
+        errorElement: <ErrorElement />,
       },
       {
         path: "project",
@@ -51,10 +62,20 @@ const router = createBrowserRouter([
         loader: projectLoader,
       },
       {
+        path: "add-project",
+        //element: <AddProject />,
+        errorElement: <ErrorElement />,
+      },
+      {
         path: "worker",
         element: <Worker />,
         errorElement: <ErrorElement />,
         loader: workerLoader,
+      },
+      {
+        path: "add-worker",
+        //element: <AddWorker />,
+        errorElement: <ErrorElement />,
       },
       {
         path: "profile",

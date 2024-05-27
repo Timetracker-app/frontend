@@ -1,6 +1,6 @@
-import { Form, useLoaderData, Link } from "react-router-dom";
-import FormSelect from "./FormSelect";
-import FormTimeRange from "./FormTimeRange";
+import { Form, Link } from "react-router-dom";
+import FormSelect from "../components/FormSelect";
+import FormTimeRange from "../components/FormTimeRange";
 
 import { customFetch } from "../utils";
 
@@ -22,7 +22,6 @@ console.log(projects);
 const AddWork = () => {
   return (
     <div>
-      <button className="btn"> Add</button>
       <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center">
         <FormSelect
           label="select worker"
@@ -60,7 +59,7 @@ const AddWork = () => {
         <button type="submit" className="btn btn-sm">
           Add
         </button>
-        <Link to="/" className="btn btn-sm">
+        <Link to="/add-work" className="btn btn-sm">
           Reset
         </Link>
       </Form>

@@ -9,4 +9,3 @@ export { default as WorkplaceContainer } from "./WorkplaceContainer";
 export { default as ProjectContainer } from "./ProjectContainer";
 export { default as WorkerContainer } from "./WorkerContainer";
 export { default as PaginationContainer } from "./PaginationContainer";
-export { default as AddWork } from "./AddWork";
