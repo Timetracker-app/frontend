@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 
 const WorkerList = () => {
   const { workers } = useLoaderData();
@@ -22,7 +22,9 @@ const WorkerList = () => {
                 <td>{priimek}</td>
                 <td>{email}</td>
                 <td>
-                  <button className="btn btn-sm">Edit</button>
+                  <Link to={`/worker/${ime}`} className="btn btn-sm">
+                    Edit
+                  </Link>
                 </td>
               </tr>
             </tbody>

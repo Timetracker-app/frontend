@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import { formatDate } from "../utils";
 
 const WorkList = () => {
@@ -29,7 +29,9 @@ const WorkList = () => {
                 <td>{starttime}</td>
                 <td>{endtime}</td>
                 <td>
-                  <button className="btn btn-sm">Edit</button>
+                  <Link to={`/work/${IDdela}`} className="btn btn-sm">
+                    Edit
+                  </Link>
                 </td>
               </tr>
             </tbody>

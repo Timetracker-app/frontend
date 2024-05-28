@@ -5,13 +5,20 @@ import {
   Work,
   AddWork,
   Workplace,
+  AddWorkplace,
   Project,
+  AddProject,
   Worker,
+  AddWorker,
   Profile,
   Error,
   Landing,
   Login,
   ProtectedRoute,
+  SingleWork,
+  SingleWorker,
+  SingleProject,
+  SingleWorkplace,
 } from "./pages";
 
 import { ErrorElement } from "./components";
@@ -21,6 +28,11 @@ import { loader as workLoader } from "./pages/Work";
 import { loader as workplaceLoader } from "./pages/Workplace";
 import { loader as projectLoader } from "./pages/Project";
 import { loader as workerLoader } from "./pages/Worker";
+import { loader as singleWorkLoader } from "./pages/SingleWork";
+import { loader as singleWorkerLoader } from "./pages/SingleWorker";
+import { loader as singleProjectLoader } from "./pages/SingleProject";
+import { loader as singleWorkplaceLoader } from "./pages/SingleWorkplace";
+
 // actions
 
 const router = createBrowserRouter([
@@ -40,6 +52,12 @@ const router = createBrowserRouter([
         loader: workLoader,
       },
       {
+        path: "work/:id",
+        element: <SingleWork />,
+        errorElement: <ErrorElement />,
+        loader: singleWorkLoader,
+      },
+      {
         path: "add-work",
         element: <AddWork />,
         errorElement: <ErrorElement />,
@@ -51,8 +69,14 @@ const router = createBrowserRouter([
         loader: workplaceLoader,
       },
       {
+        path: "workplace/:name",
+        element: <SingleWorkplace />,
+        errorElement: <ErrorElement />,
+        loader: singleWorkplaceLoader,
+      },
+      {
         path: "add-workplace",
-        //element: <AddWorkplace />,
+        element: <AddWorkplace />,
         errorElement: <ErrorElement />,
       },
       {
@@ -62,8 +86,14 @@ const router = createBrowserRouter([
         loader: projectLoader,
       },
       {
+        path: "project/:name",
+        element: <SingleProject />,
+        errorElement: <ErrorElement />,
+        loader: singleProjectLoader,
+      },
+      {
         path: "add-project",
-        //element: <AddProject />,
+        element: <AddProject />,
         errorElement: <ErrorElement />,
       },
       {
@@ -73,8 +103,14 @@ const router = createBrowserRouter([
         loader: workerLoader,
       },
       {
+        path: "worker/:name",
+        element: <SingleWorker />,
+        errorElement: <ErrorElement />,
+        loader: singleWorkerLoader,
+      },
+      {
         path: "add-worker",
-        //element: <AddWorker />,
+        element: <AddWorker />,
         errorElement: <ErrorElement />,
       },
       {

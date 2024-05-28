@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 
 const WorkplaceList = () => {
   const { workplaces } = useLoaderData();
@@ -20,9 +20,13 @@ const WorkplaceList = () => {
               <tr key={key}>
                 <td>{stroj}</td>
                 <td>{cas}</td>
-                <td>{status}</td>
+                <td className={status === 1 ? "text-success" : "text-error"}>
+                  {status === 1 ? "active" : "inactive"}
+                </td>
                 <td>
-                  <button className="btn btn-sm">Edit</button>
+                  <Link to={`/workplace/${stroj}`} className="btn btn-sm">
+                    Edit
+                  </Link>
                 </td>
               </tr>
             </tbody>

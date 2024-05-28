@@ -20,3 +20,19 @@ export const formatDate = (timestamp) => {
 
   return formattedDate;
 };
+
+export const formatDateTime = (datetime) => {
+  const date = new Date(datetime);
+
+  const optionsDate = { year: "numeric", month: "2-digit", day: "2-digit" };
+  const optionsTime = { hour: "2-digit", minute: "2-digit", hour12: false };
+
+  const formattedDate = new Intl.DateTimeFormat("en-CA", optionsDate).format(
+    date
+  ); // 'en-CA' ensures the format YYYY-MM-DD
+  const formattedTime = new Intl.DateTimeFormat("en-GB", optionsTime).format(
+    date
+  ); // 'en-GB' ensures the format HH:MM
+
+  return `${formattedDate}T${formattedTime}`;
+};

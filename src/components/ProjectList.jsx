@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 
 const ProjectList = () => {
   const { projects } = useLoaderData();
@@ -20,9 +20,13 @@ const ProjectList = () => {
               <tr key={key}>
                 <td>{projekt}</td>
                 <td>{cas}</td>
-                <td>{status}</td>
+                <td className={status === 1 ? "text-success" : "text-error"}>
+                  {status === 1 ? "active" : "inactive"}
+                </td>
                 <td>
-                  <button className="btn btn-sm">Edit</button>
+                  <Link to={`/project/${projekt}`} className="btn btn-sm">
+                    Edit
+                  </Link>
                 </td>
               </tr>
             </tbody>
