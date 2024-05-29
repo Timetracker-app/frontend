@@ -1,9 +1,8 @@
-import { PaginationContainer, WorkContainer, WorkFilter } from "../components";
+import { WorkContainer, WorkFilter } from "../components";
 import { customFetch } from "../utils";
 const url = "/work";
 
 export const loader = async ({ request }) => {
-  console.log(request);
   var params = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
   ]);
@@ -17,7 +16,6 @@ export const loader = async ({ request }) => {
       endtime: "",
     };
   }
-  console.log(params);
 
   const response = await customFetch(url, { params });
   const work = response.data.result;
@@ -31,7 +29,6 @@ const Work = () => {
     <>
       <WorkFilter />
       <WorkContainer />
-      {/*<PaginationContainer /> */}
     </>
   );
 };

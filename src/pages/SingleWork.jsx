@@ -12,12 +12,20 @@ console.log(workers);
 
 const workplacesResponse = await customFetch("/workplace");
 const workplacesData = workplacesResponse.data.result;
-const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
+const workplaces = [
+  ...new Set(
+    workplacesData.filter((item) => item.status === 1).map((item) => item.stroj)
+  ),
+];
 console.log(workplaces);
 
 const projectsResponse = await customFetch("/project");
 const projectsData = projectsResponse.data.result;
-const projects = [...new Set(projectsData.map((item) => item.projekt))];
+const projects = [
+  ...new Set(
+    projectsData.filter((item) => item.status === 1).map((item) => item.projekt)
+  ),
+];
 console.log(projects);
 
 export const loader = async ({ params }) => {

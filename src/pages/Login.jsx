@@ -21,7 +21,7 @@ const Login = () => {
           name="password"
           defaultValue="secret"
         />
-        <div className="mt-4">
+        <div className="bg-base-300 mt-4">
           <SubmitBtn text="Login" />
         </div>
       </Form>
