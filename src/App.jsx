@@ -34,6 +34,10 @@ import { loader as singleProjectLoader } from "./pages/SingleProject";
 import { loader as singleWorkplaceLoader } from "./pages/SingleWorkplace";
 
 // actions
+import {action as addWorkAction} from "./pages/AddWork"
+import {action as addWorkplaceAction } from "./pages/AddWorkplace";
+import {action as addProjectAction} from "./pages/AddProject"
+import {action as addWorkerAction} from "./pages/AddWorker"
 
 const router = createBrowserRouter([
   {
@@ -61,6 +65,7 @@ const router = createBrowserRouter([
         path: "add-work",
         element: <AddWork />,
         errorElement: <ErrorElement />,
+        action: addWorkAction,
       },
       {
         path: "workplace",
@@ -78,6 +83,7 @@ const router = createBrowserRouter([
         path: "add-workplace",
         element: <AddWorkplace />,
         errorElement: <ErrorElement />,
+        action: addWorkplaceAction,
       },
       {
         path: "project",
@@ -95,6 +101,7 @@ const router = createBrowserRouter([
         path: "add-project",
         element: <AddProject />,
         errorElement: <ErrorElement />,
+        action: addProjectAction,
       },
       {
         path: "worker",
@@ -112,6 +119,7 @@ const router = createBrowserRouter([
         path: "add-worker",
         element: <AddWorker />,
         errorElement: <ErrorElement />,
+        action: addWorkerAction,
       },
       {
         path: "profile",

@@ -1,8 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import { customFetch } from "../utils";
 import { Link, Form } from "react-router-dom";
-import FormSelect from "../components/FormSelect";
-import FormTimeRange from "../components/FormTimeRange";
+import { FormSelect, FormTimeRange, PageTitle } from "../components";
 import { formatDateTime } from "../utils/index";
 
 const workersResponse = await customFetch("/worker");
@@ -44,7 +43,9 @@ const SingleWork = () => {
 
   return (
     <div>
-      <div className="text-xl my-4">Edit Work</div>
+      <div>
+        <PageTitle text="Edit Work" />
+      </div>
       <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center">
         <FormSelect
           label="select worker"

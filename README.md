@@ -33,12 +33,15 @@ npm i react-router-dom@6.14.0
 npm i axios@1.6.8
 npm i @tanstack/react-query@5.40.0
 npm i @tanstack/react-query-devtools@5.40.0
+npm i @reduxjs/toolkit@2.2.5
+npm i react-redux@9.1.2
+npm i react-csv@2.2.2
 ```
 
 To consider:
 
 ```sh
-npm i dayjs@1.11.9 @reduxjs/toolkit@1.9.5 react-redux@8.1.2 react-toastify@9.1.3
+npm i dayjs@1.11.9 react-toastify@9.1.3
 ```
 
 dayjs zgleda ful uporabno

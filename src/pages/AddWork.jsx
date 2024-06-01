@@ -1,6 +1,6 @@
 import { Form, Link } from "react-router-dom";
-import FormSelect from "../components/FormSelect";
-import FormTimeRange from "../components/FormTimeRange";
+import { FormSelect, FormTimeRange, PageTitle } from "../components";
+import { useState } from "react";
 
 import { customFetch } from "../utils";
 
@@ -27,42 +27,98 @@ const projects = [
 ];
 console.log(projects);
 
+const url = "/work";
+
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  console.log(data);
+  console.log(request);
+
+  try {
+    const response = await customFetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const AddWork = () => {
+  const [worker, setWorker] = useState("");
+  const [workplace, setWorkplace] = useState("");
+  const [project, setProject] = useState("");
+  const [starttime, setStarttime] = useState("");
+  const [endtime, setEndtime] = useState("");
+
+  const workerChange = (event) => {
+    setWorker(event.target.value);
+  };
+  const workplaceChange = (event) => {
+    setWorkplace(event.target.value);
+  };
+  const projectChange = (event) => {
+    setProject(event.target.value);
+  };
+  const starttimeChange = (event) => {
+    setStarttime(event.target.value);
+  };
+  const endtimeChange = (event) => {
+    setEndtime(event.target.value);
+  };
+
   return (
     <div>
-      <div className="text-xl my-4">Add Work</div>
-      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center">
+      <div>
+        <PageTitle text="Add Work" />
+      </div>
+      <Form
+        method="post"
+        className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center"
+      >
         <FormSelect
           label="select worker"
-          name="worker"
+          name="ime"
           list={workers}
-          defaultValue=""
+          value={worker}
+          onChange={workerChange}
           size="select-sm"
         ></FormSelect>
         <FormSelect
           label="select project"
-          name="project"
+          name="projekt"
           list={projects}
-          defaultValue=""
+          value={project}
+          onChange={projectChange}
           size="select-sm"
         ></FormSelect>
         <FormSelect
           label="select workplace"
-          name="workplace"
+          name="stroj"
           list={workplaces}
-          defaultValue=""
+          value={workplace}
+          onChange={workplaceChange}
           size="select-sm"
         ></FormSelect>
         <FormTimeRange
           label="select start date"
-          name="starttime"
-          defaultValue=""
+          name="zacetni_cas"
+          value={starttime}
+          onChange={starttimeChange}
           size="select-sm"
         ></FormTimeRange>
         <FormTimeRange
           label="select end date"
-          name="endtime"
-          defaultValue=""
+          name="koncni_cas"
+          value={endtime}
+          onChange={endtimeChange}
           size="select-sm"
         ></FormTimeRange>
         <button type="submit" className="bg-base-300 btn btn-sm">

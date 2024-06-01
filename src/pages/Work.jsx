@@ -6,6 +6,7 @@ export const loader = async ({ request }) => {
   var params = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
   ]);
+  console.log(request);
 
   if (Object.keys(params).length === 0) {
     params = {

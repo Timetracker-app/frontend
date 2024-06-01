@@ -9,6 +9,7 @@ const FormTimeRange = ({ label, name, defaultValue }) => {
         id={name}
         name={name}
         defaultValue={defaultValue}
+        required
       />
     </div>
   );
