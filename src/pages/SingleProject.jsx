@@ -68,11 +68,8 @@ const SingleProject = () => {
   const handleUpdateClick = (e) => {
     e.preventDefault();
     const updatedTime = reset === 1 ? "00:00:00" : time;
-    const projekt = name;
-    const cas = updatedTime;
-    const status = activity;
 
-    const updatedData = { projekt, status, cas };
+    const updatedData = { projekt: name, status: activity, cas: updatedTime };
     handleUpdate(projectName, updatedData);
   };
 

@@ -34,10 +34,13 @@ import { loader as singleProjectLoader } from "./pages/SingleProject";
 import { loader as singleWorkplaceLoader } from "./pages/SingleWorkplace";
 
 // actions
-import {action as addWorkAction} from "./pages/AddWork"
-import {action as addWorkplaceAction } from "./pages/AddWorkplace";
-import {action as addProjectAction} from "./pages/AddProject"
-import {action as addWorkerAction} from "./pages/AddWorker"
+import { action as addWorkAction } from "./pages/AddWork";
+import { action as addWorkplaceAction } from "./pages/AddWorkplace";
+import { action as addProjectAction } from "./pages/AddProject";
+import { action as addWorkerAction } from "./pages/AddWorker";
+import { action as loginAction } from "./pages/Login";
+
+import { store } from "./store";
 
 const router = createBrowserRouter([
   {
@@ -136,6 +139,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
     errorElement: <Error />,
+    action: loginAction(store),
   },
 ]);
 

@@ -54,8 +54,6 @@ const SingleWorker = () => {
   const [name, setName] = useState(workerName);
   const [lastName, setLastName] = useState(workerLastName);
   const [email, setEmail] = useState(workerEmail);
-  const [password, setPassword] = useState("");
-  //const [newPassword, setNewPassword] = useState("");
 
   const nameChange = (event) => {
     setName(event.target.value);
@@ -66,12 +64,6 @@ const SingleWorker = () => {
   const emailChange = (event) => {
     setEmail(event.target.value);
   };
-  const passwordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  //const newPasswordChange = (event) => {
-  //setNewPassword(event.target.value);
-  //};
 
   const handleUpdateClick = (e) => {
     e.preventDefault();
@@ -79,8 +71,6 @@ const SingleWorker = () => {
       ime: name,
       priimek: lastName,
       email,
-      geslo: password,
-      //novoGeslo: newPassword,
     };
     handleUpdate(workerName, updatedData);
   };
@@ -123,14 +113,6 @@ const SingleWorker = () => {
           name="worker email"
           value={email}
           onChange={emailChange}
-          size="select-sm"
-        />
-        <FormInput
-          type="password"
-          label="Password"
-          name="password"
-          value={password}
-          onChange={passwordChange}
           size="select-sm"
         />
         <button

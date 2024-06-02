@@ -68,11 +68,8 @@ const SingleWorkplace = () => {
   const handleUpdateClick = (e) => {
     e.preventDefault();
     const updatedTime = reset === 1 ? "00:00:00" : time;
-    const stroj = name;
-    const cas = updatedTime;
-    const status = activity;
 
-    const updatedData = { stroj, status, cas };
+    const updatedData = { stroj: name, status: activity, cas: updatedTime };
     handleUpdate(workplaceName, updatedData);
   };
 

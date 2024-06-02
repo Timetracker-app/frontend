@@ -3,6 +3,7 @@ export { default as SubmitBtn } from "./SubmitBtn";
 export { default as FormCheckbox } from "./FormCheckbox";
 export { default as FormSelect } from "./FormSelect";
 export { default as FormTimeRange } from "./FormTimeRange";
+export { default as FormDateRange } from "./FormDateRange";
 export { default as Header } from "./Header";
 export { default as Sidebar } from "./Sidebar";
 export { default as ErrorElement } from "./ErrorElement";

@@ -1,29 +1,50 @@
 import { Form, useLoaderData, Link } from "react-router-dom";
+import { useState } from "react";
 import FormSelect from "./FormSelect";
-import FormTimeRange from "./FormTimeRange";
+import FormDateRange from "./FormDateRange";
 import { customFetch } from "../utils";
+import { CSVLink } from "react-csv";
 
 const workersResponse = await customFetch("/worker");
 const workersData = workersResponse.data.result;
 const workers = [...new Set(workersData.map((item) => item.ime))];
 workers.unshift("");
-console.log(workers);
 
 const workplacesResponse = await customFetch("/workplace");
 const workplacesData = workplacesResponse.data.result;
 const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
 workplaces.unshift("");
-console.log(workplaces);
 
 const projectsResponse = await customFetch("/project");
 const projectsData = projectsResponse.data.result;
 const projects = [...new Set(projectsData.map((item) => item.projekt))];
 projects.unshift("");
-console.log(projects);
 
 const WorkFilter = () => {
   const { work, params } = useLoaderData();
   const { worker, project, workplace, starttime, endtime } = params;
+
+  const [workerState, setWorkerState] = useState(worker);
+  const [projectState, setProjectState] = useState(project);
+  const [workplaceState, setWorkplaceState] = useState(workplace);
+  const [starttimeState, setStarttimeState] = useState(starttime);
+  const [endtimeState, setEndtimeState] = useState(endtime);
+
+  const workerStateChange = (event) => {
+    setWorkerState(event.target.value);
+  };
+  const projectStateChange = (event) => {
+    setProjectState(event.target.value);
+  };
+  const workplaceStateChange = (event) => {
+    setWorkplaceState(event.target.value);
+  };
+  const starttimeStateChange = (event) => {
+    setStarttimeState(event.target.value);
+  };
+  const endtimeStateChange = (event) => {
+    setEndtimeState(event.target.value);
+  };
 
   /*
   const workers = [...new Set(work.map((item) => item.ime))];
@@ -41,41 +62,59 @@ const WorkFilter = () => {
           label="select worker"
           name="worker"
           list={workers}
-          defaultValue={worker}
-          size="select-sm"
+          value={workerState}
+          onChange={workerStateChange}
         ></FormSelect>
         <FormSelect
           label="select project"
           name="project"
           list={projects}
-          defaultValue={project}
-          size="select-sm"
+          value={projectState}
+          onChange={projectStateChange}
         ></FormSelect>
         <FormSelect
           label="select workplace"
           name="workplace"
           list={workplaces}
-          defaultValue={workplace}
-          size="select-sm"
+          value={workplaceState}
+          onChange={workplaceStateChange}
         ></FormSelect>
-        <FormTimeRange
+        <FormDateRange
           label="select start date"
           name="starttime"
-          defaultValue={starttime}
-          size="select-sm"
-        ></FormTimeRange>
-        <FormTimeRange
+          value={starttimeState}
+          onChange={starttimeStateChange}
+          required={false}
+        ></FormDateRange>
+        <FormDateRange
           label="select end date"
           name="endtime"
-          defaultValue={endtime}
-          size="select-sm"
-        ></FormTimeRange>
+          value={endtimeState}
+          onChange={endtimeStateChange}
+          required={false}
+        ></FormDateRange>
         <button type="submit" className="bg-base-300 btn btn-sm">
           Search
         </button>
         <Link to="/" className="bg-base-300 btn btn-sm">
           Reset
         </Link>
+        <CSVLink
+          data={work}
+          headers={[
+            { label: "Work ID", key: "IDdela" },
+            { label: "Worker", key: "ime" },
+            { label: "Project", key: "projekt" },
+            { label: "Workplace", key: "stroj" },
+            { label: "Start Time", key: "zacetni_cas" },
+            { label: "End Time", key: "koncni_cas" },
+          ]}
+          separator={";"}
+          className="bg-base-300 btn btn-sm"
+          filename="work-list"
+        >
+          Export Data (.csv)
+        </CSVLink>
       </Form>
     </div>
   );

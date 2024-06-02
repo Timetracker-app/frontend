@@ -1,11 +1,11 @@
-const FormTimeRange = ({ label, name, value, onChange, required }) => {
+const FormDateRange = ({ label, name, value, onChange, required }) => {
   return (
     <div className="form-control">
       <label htmlFor={name} className="label">
         <span className="label-text capitalize">{label}</span>
       </label>
       <input
-        type="datetime-local"
+        type="date"
         id={name}
         name={name}
         value={value}
@@ -16,4 +16,4 @@ const FormTimeRange = ({ label, name, value, onChange, required }) => {
   );
 };
 
-export default FormTimeRange;
+export default FormDateRange;

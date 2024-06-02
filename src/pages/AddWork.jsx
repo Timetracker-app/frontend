@@ -112,14 +112,14 @@ const AddWork = () => {
           name="zacetni_cas"
           value={starttime}
           onChange={starttimeChange}
-          size="select-sm"
+          required={true}
         ></FormTimeRange>
         <FormTimeRange
           label="select end date"
           name="koncni_cas"
           value={endtime}
           onChange={endtimeChange}
-          size="select-sm"
+          required={true}
         ></FormTimeRange>
         <button type="submit" className="bg-base-300 btn btn-sm">
           Add

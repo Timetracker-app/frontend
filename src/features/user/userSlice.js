@@ -8,6 +8,8 @@ const initialState = {
   user: getUserFromLocalStorage(),
 };
 
+console.log(initialState);
+
 const userSlice = createSlice({
   name: "user",
   initialState,

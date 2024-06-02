@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useLoaderData, Link } from "react-router-dom";
 import { formatDate } from "../utils";
-import { CSVLink, CSVDownload } from "react-csv";
 
 const WorkList = () => {
   const { work } = useLoaderData();
+  console.log(work);
   const totalWorks = work.length;
   const reversedWork = [...work].reverse();
 
@@ -54,23 +54,7 @@ const WorkList = () => {
           );
         })}
       </table>
-      <div className="mt-12 flex justify-end">
-        <CSVLink
-          data={work}
-          headers={[
-            { label: "Work ID", key: "IDdela" },
-            { label: "Worker", key: "ime" },
-            { label: "Project", key: "projekt" },
-            { label: "Workplace", key: "stroj" },
-            { label: "Start Time", key: "zacetni_cas" },
-            { label: "End Time", key: "koncni_cas" },
-          ]}
-          className="bg-base-300 btn btn-md"
-          filename="work-list"
-        >
-          Export Data
-        </CSVLink>
-      </div>
+
       <div className="mt-12 flex justify-end">
         <div className="join">
           <button
