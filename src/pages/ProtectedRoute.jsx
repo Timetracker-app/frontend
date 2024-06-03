@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import useToken from "../features/useToken";
 
 const ProtectedRoute = ({ children }) => {
-  const user = useSelector((state) => state.userState.user);
+  const { token } = useToken();
 
-  if (!user) {
-    return <Navigate to="/landing" replace />;
+  if (!token) {
+    return <Navigate to="/login" replace />;
   }
   return children;
 };

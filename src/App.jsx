@@ -40,110 +40,111 @@ import { action as addProjectAction } from "./pages/AddProject";
 import { action as addWorkerAction } from "./pages/AddWorker";
 import { action as loginAction } from "./pages/Login";
 
-import { store } from "./store";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <ProtectedRoute>
-        <Home />
-      </ProtectedRoute>
-    ),
-    errorElement: <Error />,
-    children: [
-      {
-        index: true,
-        element: <Work />,
-        errorElement: <ErrorElement />,
-        loader: workLoader,
-      },
-      {
-        path: "work/:id",
-        element: <SingleWork />,
-        errorElement: <ErrorElement />,
-        loader: singleWorkLoader,
-      },
-      {
-        path: "add-work",
-        element: <AddWork />,
-        errorElement: <ErrorElement />,
-        action: addWorkAction,
-      },
-      {
-        path: "workplace",
-        element: <Workplace />,
-        errorElement: <ErrorElement />,
-        loader: workplaceLoader,
-      },
-      {
-        path: "workplace/:name",
-        element: <SingleWorkplace />,
-        errorElement: <ErrorElement />,
-        loader: singleWorkplaceLoader,
-      },
-      {
-        path: "add-workplace",
-        element: <AddWorkplace />,
-        errorElement: <ErrorElement />,
-        action: addWorkplaceAction,
-      },
-      {
-        path: "project",
-        element: <Project />,
-        errorElement: <ErrorElement />,
-        loader: projectLoader,
-      },
-      {
-        path: "project/:name",
-        element: <SingleProject />,
-        errorElement: <ErrorElement />,
-        loader: singleProjectLoader,
-      },
-      {
-        path: "add-project",
-        element: <AddProject />,
-        errorElement: <ErrorElement />,
-        action: addProjectAction,
-      },
-      {
-        path: "worker",
-        element: <Worker />,
-        errorElement: <ErrorElement />,
-        loader: workerLoader,
-      },
-      {
-        path: "worker/:name",
-        element: <SingleWorker />,
-        errorElement: <ErrorElement />,
-        loader: singleWorkerLoader,
-      },
-      {
-        path: "add-worker",
-        element: <AddWorker />,
-        errorElement: <ErrorElement />,
-        action: addWorkerAction,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-    ],
-  },
-  {
-    path: "/landing",
-    element: <Landing />,
-    errorElement: <Error />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-    errorElement: <Error />,
-    action: loginAction(store),
-  },
-]);
+import useToken from "./features/useToken";
 
 const App = () => {
+  const { setToken } = useToken();
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      ),
+      errorElement: <Error />,
+      children: [
+        {
+          index: true,
+          element: <Work />,
+          errorElement: <ErrorElement />,
+          loader: workLoader,
+        },
+        {
+          path: "work/:id",
+          element: <SingleWork />,
+          errorElement: <ErrorElement />,
+          loader: singleWorkLoader,
+        },
+        {
+          path: "add-work",
+          element: <AddWork />,
+          errorElement: <ErrorElement />,
+          action: addWorkAction,
+        },
+        {
+          path: "workplace",
+          element: <Workplace />,
+          errorElement: <ErrorElement />,
+          loader: workplaceLoader,
+        },
+        {
+          path: "workplace/:name",
+          element: <SingleWorkplace />,
+          errorElement: <ErrorElement />,
+          loader: singleWorkplaceLoader,
+        },
+        {
+          path: "add-workplace",
+          element: <AddWorkplace />,
+          errorElement: <ErrorElement />,
+          action: addWorkplaceAction,
+        },
+        {
+          path: "project",
+          element: <Project />,
+          errorElement: <ErrorElement />,
+          loader: projectLoader,
+        },
+        {
+          path: "project/:name",
+          element: <SingleProject />,
+          errorElement: <ErrorElement />,
+          loader: singleProjectLoader,
+        },
+        {
+          path: "add-project",
+          element: <AddProject />,
+          errorElement: <ErrorElement />,
+          action: addProjectAction,
+        },
+        {
+          path: "worker",
+          element: <Worker />,
+          errorElement: <ErrorElement />,
+          loader: workerLoader,
+        },
+        {
+          path: "worker/:name",
+          element: <SingleWorker />,
+          errorElement: <ErrorElement />,
+          loader: singleWorkerLoader,
+        },
+        {
+          path: "add-worker",
+          element: <AddWorker />,
+          errorElement: <ErrorElement />,
+          action: addWorkerAction,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+      ],
+    },
+    {
+      path: "/landing",
+      element: <Landing />,
+      errorElement: <Error />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+      errorElement: <Error />,
+      action: loginAction(setToken),
+    },
+  ]);
   return <RouterProvider router={router} />;
 };
 
