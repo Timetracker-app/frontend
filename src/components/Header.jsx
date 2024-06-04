@@ -5,7 +5,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { removeToken } = useToken();
   const user = JSON.parse(localStorage.getItem("token"));
-  console.log(user);
 
   const handleLogout = (token) => {
     removeToken(token);

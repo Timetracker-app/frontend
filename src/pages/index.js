@@ -16,3 +16,4 @@ export { default as SingleWork } from "./SingleWork";
 export { default as SingleWorker } from "./SingleWorker";
 export { default as SingleProject } from "./SingleProject";
 export { default as SingleWorkplace } from "./SingleWorkplace";
+export { default as ChangePassword } from "./ChangePassword";

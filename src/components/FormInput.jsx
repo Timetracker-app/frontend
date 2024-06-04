@@ -1,6 +1,15 @@
 import { useState } from "react";
 
-const FormInput = ({ label, name, type, value, size, onChange, disabled }) => {
+const FormInput = ({
+  label,
+  name,
+  type,
+  value,
+  size,
+  onChange,
+  disabled,
+  defaultValue,
+}) => {
   return (
     <div className="form-control">
       <label className="label">
@@ -14,6 +23,7 @@ const FormInput = ({ label, name, type, value, size, onChange, disabled }) => {
         className={`input input-bordered ${size}`}
         required
         disabled={disabled}
+        defaultValue={defaultValue}
       />
     </div>
   );
