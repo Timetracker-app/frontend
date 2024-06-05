@@ -1,16 +1,29 @@
 import { useLoaderData } from "react-router-dom";
 import { customFetch } from "../utils";
 import { Link, Form } from "react-router-dom";
-import { FormInput, FormCheckbox, PageTitle } from "../components";
+import {
+  FormInput,
+  FormCheckbox,
+  PageTitle,
+  Notification,
+} from "../components";
 import { useState } from "react";
+import { useNotification } from "../features/NotificationContext";
+
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
 
 export const loader = async ({ params }) => {
-  const response = await customFetch(`/workplace/${params.name}`);
+  const response = await customFetch(`/workplace/${params.name}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   console.log(response.data.result);
   return { workplace: response.data.result };
 };
 
-const handleUpdate = async (workplaceName, updatedData) => {
+const handleUpdate = async (workplaceName, updatedData, notify) => {
   console.log(updatedData);
 
   try {
@@ -18,34 +31,56 @@ const handleUpdate = async (workplaceName, updatedData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       data: updatedData,
     });
-    console.log(response);
+    if (response.status === 204) {
+      notify("Workplace was successfully edited!", "success");
+    }
     return response;
   } catch (error) {
-    console.log(error);
+    if (error?.response?.data?.errorMsg?.status === 105) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Workplace does not exist!", "error");
+    } else {
+      console.log("Failed to edit workplace", error);
+      notify("Failed to edit workplace", "error");
+    }
+
     return null;
   }
 };
 
-const handleDelete = async (workplaceName) => {
+const handleDelete = async (workplaceName, notify) => {
   try {
     const response = await customFetch(`/workplace/${workplaceName}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log(response);
+    if (response.status === 204) {
+      notify("Workplace was successfully deleted!", "success");
+    }
     return response;
   } catch (error) {
-    console.log(error);
+    if (error?.response?.data?.errorMsg?.status === 105) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Workplace does not exist!", "error");
+    } else {
+      console.log("Failed to delete workplace", error);
+      notify("Failed to delete workplace", "error");
+    }
     return null;
   }
 };
 
 const SingleWorkplace = () => {
+  const { notify } = useNotification();
+
   const { workplace } = useLoaderData();
   const workplaceName = workplace.map((item) => item.stroj)[0];
   const time = workplace.map((item) => item.cas)[0];
@@ -70,7 +105,7 @@ const SingleWorkplace = () => {
     const updatedTime = reset === 1 ? "00:00:00" : time;
 
     const updatedData = { stroj: name, status: activity, cas: updatedTime };
-    handleUpdate(workplaceName, updatedData);
+    handleUpdate(workplaceName, updatedData, notify);
   };
 
   const handleDeleteClick = (e) => {
@@ -79,7 +114,7 @@ const SingleWorkplace = () => {
   };
 
   const handleConfirmationClick = (e) => {
-    handleDelete(workplaceName);
+    handleDelete(workplaceName, notify);
   };
 
   return (
@@ -121,6 +156,7 @@ const SingleWorkplace = () => {
           Delete
         </button>
       </Form>
+      <Notification />
       <div>
         <dialog id="modal" className="modal">
           <div className="modal-box">

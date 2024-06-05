@@ -2,6 +2,9 @@ import { WorkContainer, WorkFilter } from "../components";
 import { customFetch } from "../utils";
 const url = "/work";
 
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
+
 export const loader = async ({ request }) => {
   var params = Object.fromEntries([
     ...new URL(request.url).searchParams.entries(),
@@ -18,7 +21,12 @@ export const loader = async ({ request }) => {
     };
   }
 
-  const response = await customFetch(url, { params });
+  const response = await customFetch(url, {
+    params,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const work = response.data.result;
   console.log(work);
 

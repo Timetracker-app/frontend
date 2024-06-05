@@ -2,16 +2,24 @@ import { Form, useLoaderData, Link } from "react-router-dom";
 import { FormInput } from "../components";
 import { customFetch } from "../utils";
 import { useState } from "react";
+import { useNotification } from "../features/NotificationContext";
+import Notification from "../components/Notification";
+
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
 
 export const loader = async () => {
   const userString = JSON.parse(localStorage.getItem("token"));
   const user = userString.user;
-  const response = await customFetch(`/worker/${user}`);
-  console.log(response.data.result[0].ime);
+  const response = await customFetch(`/worker/${user}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return { worker: response.data.result };
 };
 
-const handleUpdate = async (workerName, updatedData) => {
+const handleUpdate = async (workerName, updatedData, notify) => {
   console.log(updatedData);
 
   try {
@@ -19,26 +27,28 @@ const handleUpdate = async (workerName, updatedData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       data: updatedData,
     });
     console.log(response);
+    notify("Profile was successfully edited!", "success");
     return response;
   } catch (error) {
     console.log(error);
+    notify("Failed to edit profile", "error");
     return null;
   }
 };
 
 const Profile = () => {
+  const { notify } = useNotification();
+
   const { worker } = useLoaderData();
 
   const [lastName, setLastName] = useState(worker[0].priimek);
   const [email, setEmail] = useState(worker[0].email);
 
-  const nameChange = (event) => {
-    setName(event.target.value);
-  };
   const lastNameChange = (event) => {
     setLastName(event.target.value);
   };
@@ -53,7 +63,7 @@ const Profile = () => {
       priimek: lastName,
       email,
     };
-    handleUpdate(updatedData.ime, updatedData);
+    handleUpdate(updatedData.ime, updatedData, notify);
   };
 
   return (
@@ -63,7 +73,7 @@ const Profile = () => {
           type="text"
           label="first name"
           name="ime"
-          defaultValue={worker[0].ime}
+          value={worker[0].ime}
           disabled={true}
           size="select-sm"
         />
@@ -94,6 +104,7 @@ const Profile = () => {
           Change Password
         </Link>
       </Form>
+      <Notification />
     </div>
   );
 };

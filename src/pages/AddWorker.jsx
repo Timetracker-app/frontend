@@ -1,10 +1,47 @@
 import { Form } from "react-router-dom";
-import { FormInput, PageTitle } from "../components";
+import { FormInput, Notification, PageTitle } from "../components";
 import { customFetch } from "../utils";
 import { useState } from "react";
+import { useNotification } from "../features/NotificationContext";
+import useToken from "../features/useToken";
 
 const url = "/worker";
 
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
+
+const handleAdd = async (data, notify) => {
+  console.log(data);
+  try {
+    const response = await customFetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: data,
+    });
+    console.log(response);
+    if (response.status === 201) {
+      notify("Worker was successfully added!", "success");
+    }
+    return response;
+  } catch (error) {
+    if (error?.response?.data?.errorMsg?.status === 101) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Worker with this name already exist!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 102) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Worker with this email already exist!", "error");
+    } else {
+      console.log("Failed to add worker", error);
+      notify("Failed to add worker", "error");
+    }
+    return null;
+  }
+};
+
+/*
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
@@ -26,8 +63,11 @@ export const action = async ({ request }) => {
     return null;
   }
 };
+*/
 
 const AddWorker = () => {
+  const { notify } = useNotification();
+
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,15 +86,24 @@ const AddWorker = () => {
     setPassword(event.target.value);
   };
 
+  const handleAddClick = (e) => {
+    e.preventDefault();
+
+    const data = {
+      ime: name,
+      priimek: lastName,
+      email,
+      geslo: password,
+    };
+    handleAdd(data, notify);
+  };
+
   return (
     <div>
       <div>
         <PageTitle text="Add Worker" />
       </div>
-      <Form
-        method="post"
-        className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center"
-      >
+      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
         <FormInput
           type="text"
           label="first name"
@@ -87,10 +136,15 @@ const AddWorker = () => {
           onChange={passwordChange}
           size="select-sm"
         />
-        <button type="submit" className="bg-base-300 btn btn-sm">
+        <button
+          type="submit"
+          className="bg-base-300 btn btn-sm"
+          onClick={handleAddClick}
+        >
           Add
         </button>
       </Form>
+      <Notification />
     </div>
   );
 };

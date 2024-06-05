@@ -36,12 +36,12 @@ import { loader as singleWorkplaceLoader } from "./pages/SingleWorkplace";
 import { loader as profileLoader } from "./pages/Profile";
 
 // actions
-import { action as addWorkAction } from "./pages/AddWork";
-import { action as addWorkplaceAction } from "./pages/AddWorkplace";
-import { action as addProjectAction } from "./pages/AddProject";
-import { action as addWorkerAction } from "./pages/AddWorker";
+//import { action as addWorkAction } from "./pages/AddWork";
+//import { action as addWorkplaceAction } from "./pages/AddWorkplace";
+//import { action as addProjectAction } from "./pages/AddProject";
+//import { action as addWorkerAction } from "./pages/AddWorker";
 import { action as loginAction } from "./pages/Login";
-import { action as changePasswordAction } from "./pages/ChangePassword";
+//import { action as changePasswordAction } from "./pages/ChangePassword";
 
 import useToken from "./features/useToken";
 
@@ -74,7 +74,7 @@ const App = () => {
           path: "add-work",
           element: <AddWork />,
           errorElement: <ErrorElement />,
-          action: addWorkAction,
+          //action: addWorkAction,
         },
         {
           path: "workplace",
@@ -92,7 +92,7 @@ const App = () => {
           path: "add-workplace",
           element: <AddWorkplace />,
           errorElement: <ErrorElement />,
-          action: addWorkplaceAction,
+          //action: addWorkplaceAction,
         },
         {
           path: "project",
@@ -110,7 +110,7 @@ const App = () => {
           path: "add-project",
           element: <AddProject />,
           errorElement: <ErrorElement />,
-          action: addProjectAction,
+          //action: addProjectAction,
         },
         {
           path: "worker",
@@ -128,7 +128,7 @@ const App = () => {
           path: "add-worker",
           element: <AddWorker />,
           errorElement: <ErrorElement />,
-          action: addWorkerAction,
+          //action: addWorkerAction,
         },
         {
           path: "profile",
@@ -140,7 +140,7 @@ const App = () => {
           path: "change-password",
           element: <ChangePassword />,
           errorElement: <ErrorElement />,
-          action: changePasswordAction,
+          //action: changePasswordAction,
         },
       ],
     },

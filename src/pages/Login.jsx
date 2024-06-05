@@ -17,7 +17,9 @@ export const action =
       console.log(response.data);
       const token = response.data;
       setToken(token);
-      return redirect("/");
+      setTimeout(() => {
+        return redirect("/");
+      }, 3000);
     } catch (error) {
       const errorMessage =
         error?.response?.data?.error?.message || "Check your credentials!";

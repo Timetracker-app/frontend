@@ -1,16 +1,29 @@
 import { useLoaderData } from "react-router-dom";
 import { customFetch } from "../utils";
 import { Link, Form } from "react-router-dom";
-import { FormInput, FormCheckbox, PageTitle } from "../components";
+import {
+  FormInput,
+  FormCheckbox,
+  PageTitle,
+  Notification,
+} from "../components";
 import { useState } from "react";
+import { useNotification } from "../features/NotificationContext";
+
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
 
 export const loader = async ({ params }) => {
-  const response = await customFetch(`/project/${params.name}`);
+  const response = await customFetch(`/project/${params.name}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   console.log(response.data.result);
   return { project: response.data.result };
 };
 
-const handleUpdate = async (projectName, updatedData) => {
+const handleUpdate = async (projectName, updatedData, notify) => {
   console.log(updatedData);
 
   try {
@@ -18,34 +31,58 @@ const handleUpdate = async (projectName, updatedData) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       data: updatedData,
     });
+    if (response.status === 204) {
+      notify("Project was successfully edited!", "success");
+    }
     console.log(response);
     return response;
   } catch (error) {
+    if (error?.response?.data?.errorMsg?.status === 107) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Project does not exist!", "error");
+    } else {
+      console.log("Failed to edit project", error);
+      notify("Failed to edit project", "error");
+    }
     console.log(error);
+
     return null;
   }
 };
 
-const handleDelete = async (projectName) => {
+const handleDelete = async (projectName, notify) => {
   try {
     const response = await customFetch(`/project/${projectName}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log(response);
+    if (response.status === 204) {
+      notify("Project was successfully deleted!", "success");
+    }
     return response;
   } catch (error) {
-    console.log(error);
+    if (error?.response?.data?.errorMsg?.status === 107) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Project does not exist!", "error");
+    } else {
+      console.log("Failed to delete project", error);
+      notify("Failed to delete project", "error");
+    }
     return null;
   }
 };
 
 const SingleProject = () => {
+  const { notify } = useNotification();
+
   const { project } = useLoaderData();
   const projectName = project.map((item) => item.projekt)[0];
   const time = project.map((item) => item.cas)[0];
@@ -70,7 +107,7 @@ const SingleProject = () => {
     const updatedTime = reset === 1 ? "00:00:00" : time;
 
     const updatedData = { projekt: name, status: activity, cas: updatedTime };
-    handleUpdate(projectName, updatedData);
+    handleUpdate(projectName, updatedData, notify);
   };
 
   const handleDeleteClick = (e) => {
@@ -79,7 +116,7 @@ const SingleProject = () => {
   };
 
   const handleConfirmationClick = (e) => {
-    handleDelete(projectName);
+    handleDelete(projectName, notify);
   };
 
   return (
@@ -116,6 +153,7 @@ const SingleProject = () => {
           Delete
         </button>
       </Form>
+      <Notification />
       <div>
         <dialog id="modal" className="modal">
           <div className="modal-box">

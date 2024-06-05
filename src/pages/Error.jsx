@@ -24,9 +24,17 @@ const Error = () => {
   }
   return (
     <main className="grid min-h-[100vh] place-items-center px-8 ">
-      <h4 className="text-center font-bold text-4xl">
-        Something went wrong...
-      </h4>
+      <div className="text-center">
+        <p className="text-7xl font-semibold text-gray">{error.status}</p>
+        <h4 className="mt-4 text-3xl font-bold tracking-tight sm:text-3xl">
+          Something went wrong....
+        </h4>
+        <div className="mt-10 ">
+          <Link to="/" className="btn">
+            Back home
+          </Link>
+        </div>
+      </div>
     </main>
   );
 };

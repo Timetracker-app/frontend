@@ -14,4 +14,4 @@ export { default as ProjectContainer } from "./ProjectContainer";
 export { default as WorkerContainer } from "./WorkerContainer";
 export { default as PageTitle } from "./PageTitle";
 export { default as Loading } from "./Loading";
-export { default as Modal } from "./Modal";
+export { default as Notification } from "./Notification";

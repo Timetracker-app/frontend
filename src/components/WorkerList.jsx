@@ -26,16 +26,18 @@ const WorkerList = () => {
             <th>First Name</th>
             <th>Surname</th>
             <th>Email</th>
+            <th>Role</th>
           </tr>
         </thead>
         {slicedWorkers.map((val, key) => {
-          const { ime, priimek, email } = val;
+          const { ime, priimek, email, role } = val;
           return (
             <tbody>
               <tr key={key}>
                 <td>{ime}</td>
                 <td>{priimek}</td>
                 <td>{email}</td>
+                <td>{role}</td>
                 <td>
                   <Link to={`/worker/${ime}`} className="btn btn-sm">
                     Edit

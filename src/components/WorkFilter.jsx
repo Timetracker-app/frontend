@@ -5,17 +5,32 @@ import FormDateRange from "./FormDateRange";
 import { customFetch } from "../utils";
 import { CSVLink } from "react-csv";
 
-const workersResponse = await customFetch("/worker");
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
+
+const workersResponse = await customFetch("/worker", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const workersData = workersResponse.data.result;
 const workers = [...new Set(workersData.map((item) => item.ime))];
 workers.unshift("");
 
-const workplacesResponse = await customFetch("/workplace");
+const workplacesResponse = await customFetch("/workplace", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const workplacesData = workplacesResponse.data.result;
 const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
 workplaces.unshift("");
 
-const projectsResponse = await customFetch("/project");
+const projectsResponse = await customFetch("/project", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const projectsData = projectsResponse.data.result;
 const projects = [...new Set(projectsData.map((item) => item.projekt))];
 projects.unshift("");

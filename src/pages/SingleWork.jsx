@@ -2,62 +2,116 @@ import { useLoaderData } from "react-router-dom";
 import { customFetch } from "../utils";
 import { Link, Form } from "react-router-dom";
 import { useState } from "react";
-import { FormSelect, FormTimeRange, PageTitle } from "../components";
+import {
+  FormSelect,
+  FormTimeRange,
+  PageTitle,
+  Notification,
+} from "../components";
 import { formatDateTime } from "../utils/index";
+import { useNotification } from "../features/NotificationContext";
 
-const workersResponse = await customFetch("/worker");
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
+
+const workersResponse = await customFetch("/worker", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const workersData = workersResponse.data.result;
 const workers = [...new Set(workersData.map((item) => item.ime))];
 
-const workplacesResponse = await customFetch("/workplace");
+const workplacesResponse = await customFetch("/workplace", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const workplacesData = workplacesResponse.data.result;
 const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
 
-const projectsResponse = await customFetch("/project");
+const projectsResponse = await customFetch("/project", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const projectsData = projectsResponse.data.result;
 const projects = [...new Set(projectsData.map((item) => item.projekt))];
 
 export const loader = async ({ params }) => {
-  const response = await customFetch(`/work/${params.id}`);
+  const response = await customFetch(`/work/${params.id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return { work: response.data.result };
 };
 
-const handleUpdate = async (workID, updatedData) => {
+const handleUpdate = async (workID, updatedData, notify) => {
   console.log(updatedData);
 
   try {
+    if (updatedData.zacetni_cas === "") {
+      throw new Error("Wrong input!");
+    } else if (updatedData.koncni_cas === "") {
+      throw new Error("Wrong input!");
+    }
     const response = await customFetch(`/work/${workID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       data: updatedData,
     });
     console.log(response);
+    if (response.status === 204) {
+      notify("Work was successfully edited!", "success");
+    }
     return response;
   } catch (error) {
-    console.log(error);
+    if (error?.response?.data?.errorMsg?.status === 103) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Worker does not exist!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 105) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Workplace does not exist!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 107) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Project does not exist!", "error");
+    } else {
+      console.log("Failed to edit work", error);
+      notify("Failed to edit work", "error");
+    }
+
     return null;
   }
 };
 
-const handleDelete = async (workID) => {
+const handleDelete = async (workID, notify) => {
   try {
     const response = await customFetch(`/work/${workID}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     console.log(response);
+    if (response.status === 204) {
+      notify("Work was successfully deleted!", "success");
+    }
     return response;
   } catch (error) {
     console.log(error);
+    notify("Failed to delete work", "error");
     return null;
   }
 };
 
 const SingleWork = () => {
+  const { notify } = useNotification();
+
   const { work } = useLoaderData();
   const workID = work.map((item) => item.IDdela)[0];
   const worker = work.map((item) => item.ime)[0];
@@ -98,7 +152,7 @@ const SingleWork = () => {
       zacetni_cas: starttimeState,
       koncni_cas: endtimeState,
     };
-    handleUpdate(workID, updatedData);
+    handleUpdate(workID, updatedData, notify);
   };
 
   const handleDeleteClick = (e) => {
@@ -107,7 +161,7 @@ const SingleWork = () => {
   };
 
   const handleConfirmationClick = (e) => {
-    handleDelete(workID);
+    handleDelete(workID, notify);
   };
 
   return (
@@ -162,6 +216,7 @@ const SingleWork = () => {
           Delete
         </button>
       </Form>
+      <Notification />
       <div>
         <dialog id="modal" className="modal">
           <div className="modal-box">

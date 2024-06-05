@@ -1,15 +1,32 @@
 import { Form, Link } from "react-router-dom";
-import { FormSelect, FormTimeRange, PageTitle } from "../components";
+import {
+  FormSelect,
+  FormTimeRange,
+  PageTitle,
+  Notification,
+} from "../components";
 import { useState } from "react";
+import { useNotification } from "../features/NotificationContext";
 
 import { customFetch } from "../utils";
 
-const workersResponse = await customFetch("/worker");
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString.token;
+
+const workersResponse = await customFetch("/worker", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const workersData = workersResponse.data.result;
 const workers = [...new Set(workersData.map((item) => item.ime))];
 console.log(workers);
 
-const workplacesResponse = await customFetch("/workplace");
+const workplacesResponse = await customFetch("/workplace", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const workplacesData = workplacesResponse.data.result;
 const workplaces = [
   ...new Set(
@@ -18,7 +35,11 @@ const workplaces = [
 ];
 console.log(workplaces);
 
-const projectsResponse = await customFetch("/project");
+const projectsResponse = await customFetch("/project", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 const projectsData = projectsResponse.data.result;
 const projects = [
   ...new Set(
@@ -29,6 +50,51 @@ console.log(projects);
 
 const url = "/work";
 
+const handleAdd = async (data, notify) => {
+  console.log(data);
+
+  try {
+    if (data.zacetni_cas === "" || data.koncni_cas === "") {
+      throw new Error("Wrong input!");
+    }
+    const response = await customFetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      data: data,
+    });
+    console.log(response);
+    if (response.status === 201) {
+      notify("Work was successfully added!", "success");
+    }
+    return response;
+  } catch (error) {
+    if (error?.response?.data?.errorMsg?.status === 103) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Worker does not exist!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 105) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Workplace does not exist!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 107) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Project does not exist!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 108) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Workplace is inactive!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 109) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Project is inactive!", "error");
+    } else {
+      console.log("Failed to add work", error);
+      notify("Failed to add work", "error");
+    }
+    return null;
+  }
+};
+
+/*
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
@@ -50,11 +116,14 @@ export const action = async ({ request }) => {
     return null;
   }
 };
+*/
 
 const AddWork = () => {
-  const [worker, setWorker] = useState("");
-  const [workplace, setWorkplace] = useState("");
-  const [project, setProject] = useState("");
+  const { notify } = useNotification();
+
+  const [worker, setWorker] = useState(workers[0]);
+  const [workplace, setWorkplace] = useState(workplaces[0]);
+  const [project, setProject] = useState(projects[0]);
   const [starttime, setStarttime] = useState("");
   const [endtime, setEndtime] = useState("");
 
@@ -74,15 +143,25 @@ const AddWork = () => {
     setEndtime(event.target.value);
   };
 
+  const handleAddClick = (e) => {
+    e.preventDefault();
+
+    const data = {
+      ime: worker,
+      projekt: project,
+      stroj: workplace,
+      zacetni_cas: starttime,
+      koncni_cas: endtime,
+    };
+    handleAdd(data, notify);
+  };
+
   return (
     <div>
       <div>
         <PageTitle text="Add Work" />
       </div>
-      <Form
-        method="post"
-        className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center"
-      >
+      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center">
         <FormSelect
           label="select worker"
           name="ime"
@@ -121,10 +200,15 @@ const AddWork = () => {
           onChange={endtimeChange}
           required={true}
         ></FormTimeRange>
-        <button type="submit" className="bg-base-300 btn btn-sm">
+        <button
+          type="submit"
+          className="bg-base-300 btn btn-sm"
+          onClick={handleAddClick}
+        >
           Add
         </button>
       </Form>
+      <Notification />
     </div>
   );
 };
