@@ -60,85 +60,142 @@ const App = () => {
       children: [
         {
           index: true,
-          element: <Work />,
+          element: (
+            <ProtectedRoute>
+              <Work />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: workLoader,
         },
         {
           path: "work/:id",
-          element: <SingleWork />,
+          element: (
+            <ProtectedRoute>
+              <SingleWork />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: singleWorkLoader,
         },
         {
           path: "add-work",
-          element: <AddWork />,
+          element: (
+            <ProtectedRoute>
+              <AddWork />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
+          loader: workLoader,
           //action: addWorkAction,
         },
         {
           path: "workplace",
-          element: <Workplace />,
+          element: (
+            <ProtectedRoute>
+              <Workplace />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: workplaceLoader,
         },
         {
           path: "workplace/:name",
-          element: <SingleWorkplace />,
+          element: (
+            <ProtectedRoute>
+              <SingleWorkplace />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: singleWorkplaceLoader,
         },
         {
           path: "add-workplace",
-          element: <AddWorkplace />,
+          element: (
+            <ProtectedRoute>
+              <AddWorkplace />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           //action: addWorkplaceAction,
         },
         {
           path: "project",
-          element: <Project />,
+          element: (
+            <ProtectedRoute>
+              <Project />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: projectLoader,
         },
         {
           path: "project/:name",
-          element: <SingleProject />,
+          element: (
+            <ProtectedRoute>
+              <SingleProject />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: singleProjectLoader,
         },
         {
           path: "add-project",
-          element: <AddProject />,
+          element: (
+            <ProtectedRoute>
+              <AddProject />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           //action: addProjectAction,
         },
         {
           path: "worker",
-          element: <Worker />,
+          element: (
+            <ProtectedRoute>
+              <Worker />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: workerLoader,
         },
         {
           path: "worker/:name",
-          element: <SingleWorker />,
+          element: (
+            <ProtectedRoute>
+              <SingleWorker />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: singleWorkerLoader,
         },
         {
           path: "add-worker",
-          element: <AddWorker />,
+          element: (
+            <ProtectedRoute>
+              <AddWorker />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           //action: addWorkerAction,
         },
         {
           path: "profile",
-          element: <Profile />,
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           loader: profileLoader,
         },
         {
           path: "change-password",
-          element: <ChangePassword />,
+          element: (
+            <ProtectedRoute>
+              <ChangePassword />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorElement />,
           //action: changePasswordAction,
         },

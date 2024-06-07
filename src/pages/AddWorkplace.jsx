@@ -12,7 +12,7 @@ import { useNotification } from "../features/NotificationContext";
 const url = "/workplace";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 const handleAdd = async (data, notify) => {
   console.log(data);

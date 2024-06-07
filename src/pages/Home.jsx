@@ -1,9 +1,10 @@
 import { Outlet, useNavigation } from "react-router-dom";
-import { Header, Sidebar, Loading } from "../components";
+import { Header, Footer, Sidebar, Loading } from "../components";
 
 const Home = () => {
   const navigation = useNavigation();
   const isPageLoading = navigation.state === "loading";
+
   return (
     <div className="flex flex-col h-screen">
       <Header />
@@ -19,6 +20,7 @@ const Home = () => {
           </section>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

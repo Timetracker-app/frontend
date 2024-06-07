@@ -26,17 +26,21 @@ const WorkerList = () => {
             <th>First Name</th>
             <th>Surname</th>
             <th>Email</th>
+            <th>Status</th>
             <th>Role</th>
           </tr>
         </thead>
         {slicedWorkers.map((val, key) => {
-          const { ime, priimek, email, role } = val;
+          const { ime, priimek, email, role, status } = val;
           return (
             <tbody>
               <tr key={key}>
                 <td>{ime}</td>
                 <td>{priimek}</td>
                 <td>{email}</td>
+                <td className={status === 1 ? "text-success" : "text-error"}>
+                  {status === 1 ? "active" : "inactive"}
+                </td>
                 <td>{role}</td>
                 <td>
                   <Link to={`/worker/${ime}`} className="btn btn-sm">

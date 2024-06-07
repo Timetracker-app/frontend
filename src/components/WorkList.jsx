@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLoaderData, Link } from "react-router-dom";
-import { formatDate } from "../utils";
+import { formatDate, timeDiff } from "../utils";
 
 const WorkList = () => {
   const { work } = useLoaderData();
@@ -30,12 +30,16 @@ const WorkList = () => {
             <th>Workplace</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Work Time</th>
           </tr>
         </thead>
         {slicedWork.map((val, key) => {
           const { IDdela, ime, projekt, stroj, zacetni_cas, koncni_cas } = val;
           const starttime = formatDate(zacetni_cas);
           const endtime = formatDate(koncni_cas);
+          const workTime = timeDiff(zacetni_cas, koncni_cas);
+          console.log(workTime);
+
           return (
             <tbody>
               <tr key={key}>
@@ -44,6 +48,7 @@ const WorkList = () => {
                 <td>{stroj}</td>
                 <td>{starttime}</td>
                 <td>{endtime}</td>
+                <td>{workTime}</td>
                 <td>
                   <Link to={`/work/${IDdela}`} className="btn btn-sm">
                     Edit

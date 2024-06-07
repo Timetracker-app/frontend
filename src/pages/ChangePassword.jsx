@@ -5,7 +5,7 @@ import { customFetch } from "../utils";
 import { useNotification } from "../features/NotificationContext";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 const handleUpdate = async (updatedData, confirmPassword, notify) => {
   console.log(updatedData);

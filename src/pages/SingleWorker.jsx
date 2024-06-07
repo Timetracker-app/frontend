@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useNotification } from "../features/NotificationContext";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/worker/${params.name}`, {
@@ -89,11 +89,13 @@ const SingleWorker = () => {
   const workerLastName = worker.map((item) => item.priimek)[0];
   const workerEmail = worker.map((item) => item.email)[0];
   const workerRole = worker.map((item) => item.role)[0];
+  const workerStatus = worker.map((item) => item.status)[0];
 
   const [name, setName] = useState(workerName);
   const [lastName, setLastName] = useState(workerLastName);
   const [email, setEmail] = useState(workerEmail);
   const [role, setRole] = useState(workerRole === "user" ? 0 : 1);
+  const [status, setStatus] = useState(workerStatus);
 
   const nameChange = (event) => {
     setName(event.target.value);
@@ -105,15 +107,21 @@ const SingleWorker = () => {
     setEmail(event.target.value);
   };
   const roleChange = (event) => {
-    setRole(event.target.value);
+    setRole(event.target.checked ? 1 : 0);
+  };
+  const statusChange = (event) => {
+    setStatus(event.target.checked ? 1 : 0);
   };
 
   const handleUpdateClick = (e) => {
     e.preventDefault();
+    const updatedRole = role === 1 ? "admin" : "user";
     const updatedData = {
       ime: name,
       priimek: lastName,
       email,
+      role: updatedRole,
+      status,
     };
     handleUpdate(workerName, updatedData, notify);
   };
@@ -132,7 +140,7 @@ const SingleWorker = () => {
       <div>
         <PageTitle text="Edit Worker" />
       </div>
-      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
+      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center">
         <FormInput
           type="text"
           label="first name"
@@ -160,6 +168,12 @@ const SingleWorker = () => {
         />
         <FormCheckbox
           name="status"
+          label="active"
+          checked={status}
+          onChange={statusChange}
+        />
+        <FormCheckbox
+          name="role"
           label="admin"
           checked={role}
           onChange={roleChange}
@@ -179,8 +193,17 @@ const SingleWorker = () => {
       <div>
         <dialog id="modal" className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg">Warning</h3>
-            <p className="py-4">Are you sure you want to delete this worker?</p>
+            <h3 className="font-bold text-lg">
+              Are you sure you want to delete this worker?
+            </h3>
+            <p className="py-4">
+              If you delete selected worker, all associated works will also be
+              deleted.{" "}
+            </p>
+            <p className="py-4">
+              We recommend that you mark it as inactive or export the data that
+              belong to it before deleting it.{" "}
+            </p>
             <div className="modal-action">
               <form method="dialog">
                 <button

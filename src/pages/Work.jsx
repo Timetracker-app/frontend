@@ -3,7 +3,7 @@ import { customFetch } from "../utils";
 const url = "/work";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 export const loader = async ({ request }) => {
   var params = Object.fromEntries([
@@ -30,7 +30,34 @@ export const loader = async ({ request }) => {
   const work = response.data.result;
   console.log(work);
 
-  return { work, params };
+  const workersResponse = await customFetch("/worker", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const workers = workersResponse.data.result;
+  //const workers = [...new Set(workersData.map((item) => item.ime))];
+  //workers.unshift("");
+
+  const workplacesResponse = await customFetch("/workplace", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const workplaces = workplacesResponse.data.result;
+  //const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
+  //workplaces.unshift("");
+
+  const projectsResponse = await customFetch("/project", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const projects = projectsResponse.data.result;
+  //const projects = [...new Set(projectsData.map((item) => item.projekt))];
+  //projects.unshift("");
+
+  return { work, params, workers, projects, workplaces };
 };
 
 const Work = () => {

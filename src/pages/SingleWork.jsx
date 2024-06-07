@@ -12,31 +12,7 @@ import { formatDateTime } from "../utils/index";
 import { useNotification } from "../features/NotificationContext";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
-
-const workersResponse = await customFetch("/worker", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const workersData = workersResponse.data.result;
-const workers = [...new Set(workersData.map((item) => item.ime))];
-
-const workplacesResponse = await customFetch("/workplace", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const workplacesData = workplacesResponse.data.result;
-const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
-
-const projectsResponse = await customFetch("/project", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const projectsData = projectsResponse.data.result;
-const projects = [...new Set(projectsData.map((item) => item.projekt))];
+const token = userString?.token;
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/work/${params.id}`, {
@@ -44,18 +20,47 @@ export const loader = async ({ params }) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return { work: response.data.result };
+  const workersResponse = await customFetch("/worker", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const workersData = workersResponse.data.result;
+  const workers = [...new Set(workersData.map((item) => item.ime))];
+
+  const workplacesResponse = await customFetch("/workplace", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const workplacesData = workplacesResponse.data.result;
+  const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
+
+  const projectsResponse = await customFetch("/project", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const projectsData = projectsResponse.data.result;
+  const projects = [...new Set(projectsData.map((item) => item.projekt))];
+  return { work: response.data.result, workers, workplaces, projects };
 };
 
 const handleUpdate = async (workID, updatedData, notify) => {
   console.log(updatedData);
 
   try {
-    if (updatedData.zacetni_cas === "") {
-      throw new Error("Wrong input!");
-    } else if (updatedData.koncni_cas === "") {
+    if (updatedData.zacetni_cas === "" || updatedData.koncni_cas === "") {
       throw new Error("Wrong input!");
     }
+    const t1 = new Date(updatedData.zacetni_cas);
+    const t2 = new Date(updatedData.koncni_cas);
+    const diff = t2.getTime() - t1.getTime();
+
+    if (diff <= 0 || diff > 86400000) {
+      throw new Error("Invalid datetime!");
+    }
+
     const response = await customFetch(`/work/${workID}`, {
       method: "PUT",
       headers: {
@@ -112,7 +117,7 @@ const handleDelete = async (workID, notify) => {
 const SingleWork = () => {
   const { notify } = useNotification();
 
-  const { work } = useLoaderData();
+  const { work, workers, workplaces, projects } = useLoaderData();
   const workID = work.map((item) => item.IDdela)[0];
   const worker = work.map((item) => item.ime)[0];
   const project = work.map((item) => item.projekt)[0];

@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useNotification } from "../features/NotificationContext";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/workplace/${params.name}`, {
@@ -160,9 +160,16 @@ const SingleWorkplace = () => {
       <div>
         <dialog id="modal" className="modal">
           <div className="modal-box">
-            <h3 className="font-bold text-lg">Warning</h3>
-            <p className="py-4">
+            <h3 className="font-bold text-lg">
               Are you sure you want to delete this workplace?
+            </h3>
+            <p className="py-4">
+              If you delete selected workplace, all associated works will also
+              be deleted.{" "}
+            </p>
+            <p className="py-4">
+              We recommend that you mark it as inactive or export the data that
+              belong to it before deleting it.{" "}
             </p>
             <div className="modal-action">
               <form method="dialog">

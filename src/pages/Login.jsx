@@ -2,7 +2,7 @@ import { FormInput, SubmitBtn } from "../components";
 import { Form, redirect } from "react-router-dom";
 import { customFetch } from "../utils";
 import { useState } from "react";
-import PropTypes from "prop-types";
+import { jwtDecode } from "jwt-decode";
 
 const url = "/login";
 
@@ -16,14 +16,21 @@ export const action =
       const response = await customFetch.post(url, data);
       console.log(response.data);
       const token = response.data;
+      const decodedToken = jwtDecode(JSON.stringify(token));
+      if (decodedToken.role === "user") {
+        throw new Error("Access denied!");
+      }
+      //localStorage.setItem("token", JSON.stringify(token));
       setToken(token);
-      setTimeout(() => {
-        return redirect("/");
-      }, 3000);
+      return redirect("/");
     } catch (error) {
-      const errorMessage =
-        error?.response?.data?.error?.message || "Check your credentials!";
-      console.log(errorMessage);
+      if (error?.response?.status === 401) {
+        console.log(error?.response?.data);
+      } else if (error?.response?.data?.error?.message) {
+        console.log(error?.response?.data?.error?.message);
+      } else {
+        console.log(error);
+      }
       return null;
     }
   };
@@ -70,9 +77,4 @@ const Login = () => {
   );
 };
 
-/*
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
-*/
 export default Login;

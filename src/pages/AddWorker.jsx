@@ -1,15 +1,18 @@
 import { Form } from "react-router-dom";
-import { FormInput, Notification, PageTitle } from "../components";
+import {
+  FormCheckbox,
+  FormInput,
+  Notification,
+  PageTitle,
+} from "../components";
 import { customFetch } from "../utils";
 import { useState } from "react";
 import { useNotification } from "../features/NotificationContext";
-import useToken from "../features/useToken";
 
 const url = "/worker";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
-
+const token = userString?.token;
 const handleAdd = async (data, notify) => {
   console.log(data);
   try {
@@ -72,6 +75,8 @@ const AddWorker = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState(0);
+  const [status, setStatus] = useState(0);
 
   const nameChange = (event) => {
     setName(event.target.value);
@@ -85,15 +90,24 @@ const AddWorker = () => {
   const passwordChange = (event) => {
     setPassword(event.target.value);
   };
+  const roleChange = (event) => {
+    setRole(event.target.checked ? 1 : 0);
+  };
+  const statusChange = (event) => {
+    setStatus(event.target.checked ? 1 : 0);
+  };
 
   const handleAddClick = (e) => {
     e.preventDefault();
+    const updatedRole = role === 1 ? "admin" : "user";
 
     const data = {
       ime: name,
       priimek: lastName,
       email,
       geslo: password,
+      role: updatedRole,
+      status,
     };
     handleAdd(data, notify);
   };
@@ -103,7 +117,7 @@ const AddWorker = () => {
       <div>
         <PageTitle text="Add Worker" />
       </div>
-      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
+      <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 items-center">
         <FormInput
           type="text"
           label="first name"
@@ -135,6 +149,18 @@ const AddWorker = () => {
           value={password}
           onChange={passwordChange}
           size="select-sm"
+        />
+        <FormCheckbox
+          name="status"
+          label="active"
+          checked={status}
+          onChange={statusChange}
+        />
+        <FormCheckbox
+          name="role"
+          label="admin"
+          checked={role}
+          onChange={roleChange}
         />
         <button
           type="submit"

@@ -36,3 +36,17 @@ export const formatDateTime = (datetime) => {
 
   return `${formattedDate}T${formattedTime}`;
 };
+
+export const timeDiff = (zacetni_cas, koncni_cas) => {
+  const t1 = new Date(zacetni_cas);
+  const t2 = new Date(koncni_cas);
+  const diff = t2.getTime() - t1.getTime();
+
+  const optionsTime = { hour: "2-digit", minute: "2-digit", hour12: false };
+
+  const formattedTime = new Intl.DateTimeFormat("en-GB", optionsTime).format(
+    diff
+  );
+
+  return `${formattedTime}`;
+};

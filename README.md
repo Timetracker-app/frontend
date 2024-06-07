@@ -36,6 +36,7 @@ npm i @tanstack/react-query-devtools@5.40.0
 npm i @reduxjs/toolkit@2.2.5
 npm i react-redux@9.1.2
 npm i react-csv@2.2.2
+npm i jwt-decode@4.0.0
 ```
 
 To consider:

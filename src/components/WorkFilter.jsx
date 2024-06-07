@@ -5,38 +5,18 @@ import FormDateRange from "./FormDateRange";
 import { customFetch } from "../utils";
 import { CSVLink } from "react-csv";
 
-const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
-
-const workersResponse = await customFetch("/worker", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const workersData = workersResponse.data.result;
-const workers = [...new Set(workersData.map((item) => item.ime))];
-workers.unshift("");
-
-const workplacesResponse = await customFetch("/workplace", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const workplacesData = workplacesResponse.data.result;
-const workplaces = [...new Set(workplacesData.map((item) => item.stroj))];
-workplaces.unshift("");
-
-const projectsResponse = await customFetch("/project", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const projectsData = projectsResponse.data.result;
-const projects = [...new Set(projectsData.map((item) => item.projekt))];
-projects.unshift("");
-
 const WorkFilter = () => {
-  const { work, params } = useLoaderData();
+  const { work, params, workers, workplaces, projects } = useLoaderData();
+
+  const workersList = [...new Set(workers.map((item) => item.ime))];
+  workersList.unshift("");
+
+  const workplacesList = [...new Set(workplaces.map((item) => item.stroj))];
+  workplacesList.unshift("");
+
+  const projectsList = [...new Set(projects.map((item) => item.projekt))];
+  projectsList.unshift("");
+
   const { worker, project, workplace, starttime, endtime } = params;
 
   const [workerState, setWorkerState] = useState(worker);
@@ -76,21 +56,21 @@ const WorkFilter = () => {
         <FormSelect
           label="select worker"
           name="worker"
-          list={workers}
+          list={workersList}
           value={workerState}
           onChange={workerStateChange}
         ></FormSelect>
         <FormSelect
           label="select project"
           name="project"
-          list={projects}
+          list={projectsList}
           value={projectState}
           onChange={projectStateChange}
         ></FormSelect>
         <FormSelect
           label="select workplace"
           name="workplace"
-          list={workplaces}
+          list={workplacesList}
           value={workplaceState}
           onChange={workplaceStateChange}
         ></FormSelect>

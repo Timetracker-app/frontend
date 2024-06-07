@@ -3,7 +3,7 @@ import { customFetch } from "../utils";
 const url = "/worker";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 export const loader = async () => {
   const response = await customFetch(url, {

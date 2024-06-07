@@ -1,4 +1,4 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useLoaderData } from "react-router-dom";
 import {
   FormSelect,
   FormTimeRange,
@@ -10,53 +10,27 @@ import { useNotification } from "../features/NotificationContext";
 
 import { customFetch } from "../utils";
 
-const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
-
-const workersResponse = await customFetch("/worker", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const workersData = workersResponse.data.result;
-const workers = [...new Set(workersData.map((item) => item.ime))];
-console.log(workers);
-
-const workplacesResponse = await customFetch("/workplace", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const workplacesData = workplacesResponse.data.result;
-const workplaces = [
-  ...new Set(
-    workplacesData.filter((item) => item.status === 1).map((item) => item.stroj)
-  ),
-];
-console.log(workplaces);
-
-const projectsResponse = await customFetch("/project", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
-const projectsData = projectsResponse.data.result;
-const projects = [
-  ...new Set(
-    projectsData.filter((item) => item.status === 1).map((item) => item.projekt)
-  ),
-];
-console.log(projects);
-
 const url = "/work";
+
+const userString = JSON.parse(localStorage.getItem("token"));
+const token = userString?.token;
 
 const handleAdd = async (data, notify) => {
   console.log(data);
 
   try {
-    if (data.zacetni_cas === "" || data.koncni_cas === "") {
+    if (data.zacetni_cas === null || data.koncni_cas === null) {
       throw new Error("Wrong input!");
     }
+    const t1 = new Date(data.zacetni_cas);
+    const t2 = new Date(data.koncni_cas);
+    const diff = t2.getTime() - t1.getTime();
+
+    if (diff <= 0 || diff > 86400000) {
+      throw new Error("Invalid datetime!");
+    }
+
+    console.log(diff);
     const response = await customFetch(url, {
       method: "POST",
       headers: {
@@ -86,6 +60,9 @@ const handleAdd = async (data, notify) => {
     } else if (error?.response?.data?.errorMsg?.status === 109) {
       console.log(error?.response?.data?.errorMsg);
       notify("Project is inactive!", "error");
+    } else if (error?.response?.data?.errorMsg?.status === 112) {
+      console.log(error?.response?.data?.errorMsg);
+      notify("Worker is inactive!", "error");
     } else {
       console.log("Failed to add work", error);
       notify("Failed to add work", "error");
@@ -119,13 +96,36 @@ export const action = async ({ request }) => {
 */
 
 const AddWork = () => {
+  const { workers, workplaces, projects } = useLoaderData();
+
+  const filteredWorkers = [
+    ...new Set(
+      workers.filter((item) => item.status === 1).map((item) => item.ime)
+    ),
+  ];
+  filteredWorkers.unshift("");
+
+  const filteredWorkplaces = [
+    ...new Set(
+      workplaces.filter((item) => item.status === 1).map((item) => item.stroj)
+    ),
+  ];
+  filteredWorkplaces.unshift("");
+
+  const filteredProjects = [
+    ...new Set(
+      projects.filter((item) => item.status === 1).map((item) => item.projekt)
+    ),
+  ];
+  filteredProjects.unshift("");
+
   const { notify } = useNotification();
 
   const [worker, setWorker] = useState(workers[0]);
-  const [workplace, setWorkplace] = useState(workplaces[0]);
-  const [project, setProject] = useState(projects[0]);
-  const [starttime, setStarttime] = useState("");
-  const [endtime, setEndtime] = useState("");
+  const [workplace, setWorkplace] = useState(filteredWorkplaces[0]);
+  const [project, setProject] = useState(filteredProjects[0]);
+  const [starttime, setStarttime] = useState(null);
+  const [endtime, setEndtime] = useState(null);
 
   const workerChange = (event) => {
     setWorker(event.target.value);
@@ -165,7 +165,7 @@ const AddWork = () => {
         <FormSelect
           label="select worker"
           name="ime"
-          list={workers}
+          list={filteredWorkers}
           value={worker}
           onChange={workerChange}
           size="select-sm"
@@ -173,7 +173,7 @@ const AddWork = () => {
         <FormSelect
           label="select project"
           name="projekt"
-          list={projects}
+          list={filteredProjects}
           value={project}
           onChange={projectChange}
           size="select-sm"
@@ -181,7 +181,7 @@ const AddWork = () => {
         <FormSelect
           label="select workplace"
           name="stroj"
-          list={workplaces}
+          list={filteredWorkplaces}
           value={workplace}
           onChange={workplaceChange}
           size="select-sm"

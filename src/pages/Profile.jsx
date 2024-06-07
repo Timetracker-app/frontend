@@ -6,7 +6,7 @@ import { useNotification } from "../features/NotificationContext";
 import Notification from "../components/Notification";
 
 const userString = JSON.parse(localStorage.getItem("token"));
-const token = userString.token;
+const token = userString?.token;
 
 export const loader = async () => {
   const userString = JSON.parse(localStorage.getItem("token"));
