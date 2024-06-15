@@ -6,7 +6,6 @@ const Sidebar = () => {
   return (
     <div className="h-screen w-72 bg-base-200">
       <div className="flex flex-col items-start p-4">
-        {/* Title */}
         <NavLink to="/" className="btn text-3xl my-4">
           TimeTracker
         </NavLink>

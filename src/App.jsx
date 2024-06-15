@@ -36,12 +36,7 @@ import { loader as singleWorkplaceLoader } from "./pages/SingleWorkplace";
 import { loader as profileLoader } from "./pages/Profile";
 
 // actions
-//import { action as addWorkAction } from "./pages/AddWork";
-//import { action as addWorkplaceAction } from "./pages/AddWorkplace";
-//import { action as addProjectAction } from "./pages/AddProject";
-//import { action as addWorkerAction } from "./pages/AddWorker";
 import { action as loginAction } from "./pages/Login";
-//import { action as changePasswordAction } from "./pages/ChangePassword";
 
 import useToken from "./features/useToken";
 
@@ -87,7 +82,6 @@ const App = () => {
           ),
           errorElement: <ErrorElement />,
           loader: workLoader,
-          //action: addWorkAction,
         },
         {
           path: "workplace",
@@ -117,7 +111,6 @@ const App = () => {
             </ProtectedRoute>
           ),
           errorElement: <ErrorElement />,
-          //action: addWorkplaceAction,
         },
         {
           path: "project",
@@ -147,7 +140,6 @@ const App = () => {
             </ProtectedRoute>
           ),
           errorElement: <ErrorElement />,
-          //action: addProjectAction,
         },
         {
           path: "worker",
@@ -177,7 +169,6 @@ const App = () => {
             </ProtectedRoute>
           ),
           errorElement: <ErrorElement />,
-          //action: addWorkerAction,
         },
         {
           path: "profile",
@@ -197,7 +188,6 @@ const App = () => {
             </ProtectedRoute>
           ),
           errorElement: <ErrorElement />,
-          //action: changePasswordAction,
         },
       ],
     },

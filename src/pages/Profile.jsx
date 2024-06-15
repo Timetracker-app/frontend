@@ -62,6 +62,8 @@ const Profile = () => {
       ime: worker[0].ime,
       priimek: lastName,
       email,
+      role: worker[0].role,
+      status: worker[0].status,
     };
     handleUpdate(updatedData.ime, updatedData, notify);
   };

@@ -42,30 +42,6 @@ const handleAdd = async (data, notify) => {
   }
 };
 
-/*
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  console.log(data);
-  console.log(request);
-
-  try {
-    const response = await customFetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    });
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
-*/
-
 const AddProject = () => {
   const { notify } = useNotification();
 

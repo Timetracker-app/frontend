@@ -1,25 +1,28 @@
-# React + Vite
+## TimeTracker - web application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Technologies and tools:**
 
-Currently, two official plugins are available:
+- React
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Setup
 
-**Setup:**
-
-```sh
+```bash
 npm create vite@latest frontend -- --template react
 
 cd frontend
 npm install
+
+```
+
+**Start:**
+
+```bash
 npm run dev
 ```
 
 **Dependencies:**
 
-```sh
+```bash
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 npm i -D daisyui@latest @tailwindcss/typography
@@ -27,7 +30,7 @@ npm i -D daisyui@latest @tailwindcss/typography
 
 **Libraries/dependencies:**
 
-```sh
+```bash
 npm i react-icons@5.1.0
 npm i react-router-dom@6.14.0
 npm i axios@1.6.8
@@ -38,11 +41,3 @@ npm i react-redux@9.1.2
 npm i react-csv@2.2.2
 npm i jwt-decode@4.0.0
 ```
-
-To consider:
-
-```sh
-npm i dayjs@1.11.9 react-toastify@9.1.3
-```
-
-dayjs zgleda ful uporabno

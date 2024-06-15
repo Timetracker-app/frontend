@@ -20,7 +20,6 @@ export const action =
       if (decodedToken.role === "user") {
         throw new Error("Access denied!");
       }
-      //localStorage.setItem("token", JSON.stringify(token));
       setToken(token);
       return redirect("/");
     } catch (error) {
@@ -47,33 +46,36 @@ const Login = () => {
   };
 
   return (
-    <section className="h-screen grid place-items-center">
-      <Form
-        method="post"
-        className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4"
-      >
-        <h4 className="text-center text-3xl font-bold">Login</h4>
-        <FormInput
-          type="email"
-          label="email"
-          name="email"
-          value={email}
-          disabled={false}
-          onChange={nameChange}
-        />
-        <FormInput
-          type="password"
-          label="password"
-          name="geslo"
-          value={password}
-          disabled={false}
-          onChange={passwordChange}
-        />
-        <div className="bg-base-300 mt-4">
-          <SubmitBtn text="Login" />
-        </div>
-      </Form>
-    </section>
+    <>
+      <section className="h-screen flex flex-col items-center justify-center">
+        <h1 className="text-6xl mb-16 text-center font-bold">TimeTracker</h1>
+        <Form
+          method="post"
+          className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4"
+        >
+          <h4 className="text-center text-2xl font-bold">Login</h4>
+          <FormInput
+            type="email"
+            label="email"
+            name="email"
+            value={email}
+            disabled={false}
+            onChange={nameChange}
+          />
+          <FormInput
+            type="password"
+            label="password"
+            name="geslo"
+            value={password}
+            disabled={false}
+            onChange={passwordChange}
+          />
+          <div className="bg-base-300 mt-4">
+            <SubmitBtn text="Login" />
+          </div>
+        </Form>
+      </section>
+    </>
   );
 };
 

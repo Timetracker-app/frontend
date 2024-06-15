@@ -2,7 +2,6 @@ import { Form, useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
 import FormSelect from "./FormSelect";
 import FormDateRange from "./FormDateRange";
-import { customFetch } from "../utils";
 import { CSVLink } from "react-csv";
 
 const WorkFilter = () => {
@@ -40,15 +39,6 @@ const WorkFilter = () => {
   const endtimeStateChange = (event) => {
     setEndtimeState(event.target.value);
   };
-
-  /*
-  const workers = [...new Set(work.map((item) => item.ime))];
-  workers.unshift("");
-  const projects = [...new Set(work.map((item) => item.projekt))];
-  projects.unshift("");
-  const workplaces = [...new Set(work.map((item) => item.stroj))];
-  workplaces.unshift("");
-  */
 
   return (
     <div>
